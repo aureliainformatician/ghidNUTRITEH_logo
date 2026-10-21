@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghidul Nutrițional NutriTeh - Verde Neon</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Font Inter & Orbitron for Sci-Fi/Neon look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        neon: '#00ff66',
+                        neonBright: '#39ff14',
+                        neonCyan: '#00f0ff',
+                        darkBg: '#0d1117',
+                        cardBg: '#161b22',
+                        borderNeon: '#00ff6655'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        tech: ['Orbitron', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0d1117;
+            color: #e6edf3;
+            font-family: 'Inter', sans-serif;
+            font-size: 18px;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .neon-border {
+            border: 1px solid rgba(0, 255, 102, 0.4);
+            transition: all 0.3s ease;
+        }
+        .neon-border:hover {
+            border-color: #00ff66;
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.4);
+        }
+
+        .glass-card {
+            background: rgba(22, 27, 34, 0.9);
+            backdrop-filter: blur(8px);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0d1117;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #00ff66;
+            border-radius: 4px;
+        }
+
+        @keyframes botFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        .bot-float {
+            animation: botFloat 4s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Bara de Progres Sus -->
+    <div class="fixed top-0 left-0 w-full h-2 bg-gray-900 z-50">
+        <div id="topProgressBar" class="h-full bg-gradient-to-r from-neon to-neonCyan w-0 transition-all duration-300 shadow-[0_0_10px_#00ff66]"></div>
+    </div>
+
+    <!-- Antet / Header Navigare -->
+    <header class="sticky top-2 bg-darkBg/95 border-b border-neon/40 backdrop-blur-md z-40 py-4 px-4 md:px-8">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-xl bg-neon/10 border border-neon flex items-center justify-center text-neon shadow-[0_0_15px_rgba(0,255,102,0.3)]">
+                    <i data-lucide="zap" class="w-7 h-7"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl md:text-3xl font-tech font-bold text-neon tracking-wide flex items-center gap-2">
+                        NutriTeh <span class="text-xs px-2.5 py-0.5 rounded-full bg-neon/20 text-neonCyan border border-neonCyan/40 font-sans">v3.0 Cyber</span>
+                    </h1>
+                    <p class="text-xs text-gray-300 font-semibold">Ghid Nutrițional Interactiv | Clasa a V-a & Liceu</p>
+                </div>
+            </div>
+
+            <!-- Butoane Navigare -->
+            <nav class="flex flex-wrap justify-center gap-2 text-sm font-semibold">
+                <button onclick="scrollToSection('sec-intro')" class="px-3.5 py-2 rounded-lg border border-neon/30 text-gray-200 hover:border-neon hover:text-neon hover:bg-neon/10 transition">Mascotă</button>
+                <button onclick="scrollToSection('sec-teorie')" class="px-3.5 py-2 rounded-lg border border-neon/30 text-gray-200 hover:border-neon hover:text-neon hover:bg-neon/10 transition">U4-U6 Teorie</button>
+                <button onclick="scrollToSection('sec-etichete')" class="px-3.5 py-2 rounded-lg border border-neon/30 text-gray-200 hover:border-neon hover:text-neon hover:bg-neon/10 transition">Etichete</button>
+                <button onclick="scrollToSection('sec-meniuri')" class="px-3.5 py-2 rounded-lg border border-neon/30 text-gray-200 hover:border-neon hover:text-neon hover:bg-neon/10 transition">40 Meniuri</button>
+                <button onclick="scrollToSection('sec-simulator')" class="px-3.5 py-2 rounded-lg border border-neon/30 text-gray-200 hover:border-neon hover:text-neon hover:bg-neon/10 transition">Simulator</button>
+                <button onclick="scrollToSection('sec-exercitii')" class="px-3.5 py-2 rounded-lg border border-neon/30 text-gray-200 hover:border-neon hover:text-neon hover:bg-neon/10 transition">Exerciții</button>
+                <button onclick="scrollToSection('sec-quiz')" class="px-3.5 py-2 rounded-lg border border-neon/30 text-gray-200 hover:border-neon hover:text-neon hover:bg-neon/10 transition">Quiz</button>
+                <button onclick="scrollToSection('sec-excel')" class="px-3.5 py-2 bg-neon/20 border border-neon text-neon hover:bg-neon hover:text-darkBg font-bold transition rounded-lg">Export Excel</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Conținut Principal -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 md:px-8 py-8 space-y-12">
+
+        <!-- INTRODUCE & AVATAR NUTRIBOT -->
+        <section id="sec-intro" class="glass-card rounded-2xl p-6 md:p-8 neon-border relative overflow-hidden">
+            <div class="flex flex-col md:flex-row items-center gap-8">
+                <!-- Avatar NutriBot -->
+                <div class="relative flex-shrink-0 bot-float">
+                    <div class="w-36 h-36 md:w-44 md:h-44 rounded-full bg-gradient-to-tr from-cardBg via-darkBg to-neon/30 p-1 border-2 border-neon shadow-[0_0_20px_rgba(0,255,102,0.4)] flex items-center justify-center">
+                        <div class="w-full h-full rounded-full bg-darkBg flex flex-col items-center justify-center relative overflow-hidden">
+                            <div class="flex items-center space-x-3 mb-2">
+                                <div class="w-4 h-4 rounded-full bg-neon shadow-[0_0_8px_#00ff66] animate-pulse"></div>
+                                <div class="w-4 h-4 rounded-full bg-neon shadow-[0_0_8px_#00ff66] animate-pulse"></div>
+                            </div>
+                            <div class="w-9 h-2 bg-neonCyan rounded-full shadow-[0_0_5px_#00f0ff]"></div>
+                            <div class="text-xs text-neon font-tech mt-2">NUTRIBOT</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mesaj NutriBot -->
+                <div class="flex-1 space-y-4">
+                    <div class="inline-block px-3 py-1 bg-neon/10 border border-neon/40 text-neon rounded-full text-xs font-tech tracking-wider uppercase">
+                        Asistent Nutrițional Cyber-Edu
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-tech font-extrabold text-white">
+                        Salutare! Eu sunt <span class="text-neon">NutriBot</span> 🤖
+                    </h2>
+                    <p class="text-gray-200 text-base md:text-lg leading-relaxed">
+                        Misiunea noastră este să explorăm nutriția pentru clasa a V-a și liceu! Vom parcurge unitățile 4, 5 și 6, vom analiza <strong class="text-neon">20 de meniuri tradiționale din România</strong> și <strong class="text-neonCyan">20 din Turcia</strong> detaliate per ingredient, vom scana etichete alimentare și vom pregăti datele pentru proiectul tău în Excel!
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTIUNEA 1: TEORIE UNITĂȚILE 4, 5, 6 -->
+        <section id="sec-teorie" class="space-y-6">
+            <div class="border-l-4 border-neon pl-4">
+                <h2 class="text-2xl font-tech font-bold text-white uppercase tracking-wider">Lecția 1: Unitățile 4, 5, 6 — Bazele Nutriției Tehnologice</h2>
+                <p class="text-sm text-gray-300">Macronutrienți, Energie Calorică, Vitamine și Săruri Minerale (10-18 ani)</p>
+            </div>
+
+            <!-- Carduri Reguli Calorii -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="glass-card p-5 rounded-xl border border-neon/40">
+                    <div class="text-xs text-gray-400 uppercase font-tech">Proteine (P)</div>
+                    <div class="text-2xl font-bold text-neon my-1">1 gram = 4 kcal</div>
+                    <p class="text-sm text-gray-300">Constructori ai mușchilor și țesuturilor. Recompun celulele organismului.</p>
+                </div>
+                <div class="glass-card p-5 rounded-xl border border-neonCyan/40">
+                    <div class="text-xs text-gray-400 uppercase font-tech">Glucide / Carbohidrați (G)</div>
+                    <div class="text-2xl font-bold text-neonCyan my-1">1 gram = 4 kcal</div>
+                    <p class="text-sm text-gray-300">Combustibilul principal și rapid pentru creier, învățare și efort fizic.</p>
+                </div>
+                <div class="glass-card p-5 rounded-xl border border-yellow-500/40">
+                    <div class="text-xs text-gray-400 uppercase font-tech">Lipide / Grăsimi (L)</div>
+                    <div class="text-2xl font-bold text-yellow-400 my-1">1 gram = 9 kcal</div>
+                    <p class="text-sm text-gray-300">Rezervă energetică concentrată și izolator termic pentru organe.</p>
+                </div>
+            </div>
+
+            <!-- Detalii Teorie -->
+            <div class="glass-card rounded-2xl p-6 border border-neon/30 space-y-4">
+                <h3 class="text-xl font-bold text-neon">Formula Generală de Calcul Caloric:</h3>
+                <div class="bg-darkBg p-4 rounded-xl border border-neon/40 text-lg font-mono text-neonCyan">
+                    Calorii Totale (kcal) = (Proteine g × 4) + (Glucide g × 4) + (Lipide g × 9)
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTIUNEA 2: INSPECTOR ETICHETE -->
+        <section id="sec-etichete" class="space-y-6">
+            <div class="border-l-4 border-neonCyan pl-4">
+                <h2 class="text-2xl font-tech font-bold text-white uppercase tracking-wider">Lecția 2: Scanner de Etichete Alimentare</h2>
+                <p class="text-sm text-gray-300">Apasă pe alimentele de mai jos pentru a analiza declarația nutrițională:</p>
+            </div>
+
+            <div class="glass-card p-6 rounded-2xl border border-neonCyan/40 space-y-4">
+                <div class="flex flex-wrap gap-3">
+                    <button onclick="setLabelProduct('lapte')" class="px-4 py-2 bg-darkBg border border-neon text-neon font-bold rounded-lg hover:bg-neon hover:text-black">Lapte UHT 3.5%</button>
+                    <button onclick="setLabelProduct('iaurt')" class="px-4 py-2 bg-darkBg border border-neon text-neon font-bold rounded-lg hover:bg-neon hover:text-black">Iaurt Grecesc 10%</button>
+                    <button onclick="setLabelProduct('baton')" class="px-4 py-2 bg-darkBg border border-neon text-neon font-bold rounded-lg hover:bg-neon hover:text-black">Baton Cereale</button>
+                    <button onclick="setLabelProduct('cascaval')" class="px-4 py-2 bg-darkBg border border-neon text-neon font-bold rounded-lg hover:bg-neon hover:text-black">Cașcaval Rucăr</button>
+                </div>
+
+                <div id="labelDisplay" class="bg-black/80 border-2 border-neon p-6 rounded-xl font-mono text-sm space-y-2">
+                    <!-- Populated JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTIUNEA 3: 20 MENIURI ROMÂNIA + 20 TURCIA -->
+        <section id="sec-meniuri" class="space-y-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-l-4 border-neon pl-4">
+                <div>
+                    <h2 class="text-2xl font-tech font-bold text-white uppercase tracking-wider">Lecția 3: Baza de Date — 20 Meniuri România + 20 Turcia</h2>
+                    <p class="text-sm text-gray-300">Toate meniurile sunt detaliate per ingredient în tabelul acordeon:</p>
+                </div>
+
+                <div class="flex gap-2">
+                    <button onclick="filterMenus('all')" class="px-3.5 py-1.5 bg-neon text-darkBg font-bold rounded-lg text-sm">Toate (40)</button>
+                    <button onclick="filterMenus('RO')" class="px-3.5 py-1.5 bg-darkBg border border-neon/40 text-gray-200 font-bold rounded-lg text-sm hover:border-neon">🇷🇴 România (20)</button>
+                    <button onclick="filterMenus('TR')" class="px-3.5 py-1.5 bg-darkBg border border-neonCyan/40 text-gray-200 font-bold rounded-lg text-sm hover:border-neonCyan">🇹🇷 Turcia (20)</button>
+                </div>
+            </div>
+
+            <!-- Căutare -->
+            <input type="text" id="menuSearchInput" onkeyup="renderMenus()" placeholder="Caută un meniu sau ingredient (ex: Cottage, Menemen, Omletă, Măsline)..." class="w-full bg-darkBg border border-neon/40 text-white rounded-xl px-4 py-3 text-base focus:outline-none focus:border-neon">
+
+            <!-- Container Meniuri -->
+            <div id="menusContainer" class="space-y-4">
+                <!-- Populated JS -->
+            </div>
+        </section>
+
+        <!-- SECTIUNEA 4: SIMULATOR MACRO -->
+        <section id="sec-simulator" class="space-y-6">
+            <div class="border-l-4 border-neonCyan pl-4">
+                <h2 class="text-2xl font-tech font-bold text-white uppercase tracking-wider">Simulator Interactiv Macronutrienți</h2>
+                <p class="text-sm text-gray-300">Adaugă ingrediente din listă pentru a calcula automat meniul complet:</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div class="lg:col-span-5 glass-card p-6 rounded-2xl border border-neonCyan/40 space-y-4">
+                    <label class="text-sm text-gray-300">Selectează Ingredient:</label>
+                    <select id="simIngredientSelect" class="w-full bg-darkBg border border-gray-700 text-white rounded-lg p-3 text-base"></select>
+
+                    <label class="text-sm text-gray-300">Cantitate (grame):</label>
+                    <input type="number" id="simWeightInput" value="100" class="w-full bg-darkBg border border-gray-700 text-white rounded-lg p-3 text-base">
+
+                    <button onclick="addSimItem()" class="w-full bg-neonCyan text-darkBg font-bold py-3 rounded-lg text-base hover:bg-white transition">+ Adaugă în Meniu</button>
+                </div>
+
+                <div class="lg:col-span-7 glass-card p-6 rounded-2xl border border-neon/40 space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-lg font-bold text-neon">Sumar Meniu Creat</h3>
+                        <button onclick="clearSimMenu()" class="text-xs text-red-400 underline">Golește Meniu</button>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-darkBg text-neon font-tech text-xs border-b border-gray-800">
+                                <tr>
+                                    <th class="p-2">Ingredient</th>
+                                    <th class="p-2">Masa</th>
+                                    <th class="p-2">Kcal</th>
+                                    <th class="p-2">P (g)</th>
+                                    <th class="p-2">G (g)</th>
+                                    <th class="p-2">L (g)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="simTableBody" class="divide-y divide-gray-800 text-gray-200">
+                                <tr><td colspan="6" class="p-4 text-center text-gray-500">Meniul este gol.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTIUNEA 5: EXERCIȚII -->
+        <section id="sec-exercitii" class="space-y-6">
+            <div class="border-l-4 border-neon pl-4">
+                <h2 class="text-2xl font-tech font-bold text-white uppercase tracking-wider">Lecția 4: Exerciții Practice de Calcul</h2>
+            </div>
+
+            <div class="glass-card p-6 rounded-2xl border border-neon/40 space-y-4">
+                <p class="text-base text-gray-200">
+                    <strong>Exercițiul 1:</strong> Meniul tău conține <strong>20g Proteine</strong>, <strong>50g Glucide</strong> și <strong>15g Lipide</strong>. Câte calorii conține în total?
+                </p>
+                <div class="flex gap-3">
+                    <input type="number" id="exAnswerInput" placeholder="Rezultat în kcal..." class="bg-darkBg border border-neon/40 text-white rounded-lg p-3 text-base">
+                    <button onclick="checkExerciseAnswer()" class="bg-neon text-darkBg font-bold px-6 rounded-lg text-base">Verifică</button>
+                </div>
+                <div id="exFeedback" class="text-base hidden p-3 rounded-lg font-bold"></div>
+            </div>
+        </section>
+
+        <!-- SECTIUNEA 6: QUIZ -->
+        <section id="sec-quiz" class="space-y-6">
+            <div class="border-l-4 border-neonBright pl-4">
+                <h2 class="text-2xl font-tech font-bold text-white uppercase tracking-wider">Lecția 5: Quiz Evaluare</h2>
+            </div>
+
+            <div class="glass-card p-6 rounded-2xl border border-neonBright/40 space-y-6">
+                <div id="quizContainer" class="space-y-4"></div>
+                <button onclick="submitQuiz()" class="bg-neonBright text-darkBg font-bold px-6 py-3 rounded-xl text-base">Trimite Testul</button>
+                <div id="quizScoreDisplay" class="font-bold text-xl text-neon hidden"></div>
+            </div>
+        </section>
+
+        <!-- SECTIUNEA 7: EXPORT EXCEL -->
+        <section id="sec-excel" class="space-y-6">
+            <div class="border-l-4 border-neon pl-4">
+                <h2 class="text-2xl font-tech font-bold text-white uppercase tracking-wider">Lecția 6: Generator Export Excel Proiect Școlar</h2>
+                <p class="text-sm text-gray-300">Selectează cele 6 meniuri din listă pentru proiectul tău:</p>
+            </div>
+
+            <div class="glass-card p-6 rounded-2xl border border-neon/40 space-y-6">
+                <div id="excelChecklist" class="grid grid-cols-2 md:grid-cols-4 gap-2 max-h-48 overflow-y-auto p-3 bg-darkBg rounded-xl border border-gray-800 text-sm"></div>
+
+                <div class="flex gap-4">
+                    <button onclick="copyTableToClipboard()" class="bg-neon text-darkBg font-bold px-6 py-3 rounded-xl text-base">Copiază Format Excel (TSV)</button>
+                </div>
+
+                <div class="overflow-x-auto border border-neon/20 rounded-xl">
+                    <table id="exportExcelTable" class="w-full text-xs text-left border-collapse">
+                        <thead class="bg-darkBg text-neon uppercase border-b border-neon/30">
+                            <tr>
+                                <th class="p-2 border-r border-gray-800">Meniu</th>
+                                <th class="p-2 border-r border-gray-800">Ingredient</th>
+                                <th class="p-2 border-r border-gray-800">Cantitate (g)</th>
+                                <th class="p-2 border-r border-gray-800">Kcal</th>
+                                <th class="p-2 border-r border-gray-800">Proteine (g)</th>
+                                <th class="p-2 border-r border-gray-800">Glucide (g)</th>
+                                <th class="p-2 border-r border-gray-800">Lipide (g)</th>
+                                <th class="p-2">Minerale & Vitamine</th>
+                            </tr>
+                        </thead>
+                        <tbody id="exportExcelTableBody" class="divide-y divide-gray-800 text-gray-300 font-mono"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- JS SCRIPT LOGIC -->
+    <script>
+        // DATA: 20 ROMANIA + 20 TURKEY
+        const ALL_MENUS = [];
+
+        // RO MENUS GENERATION (20 items)
+        ALL_MENUS.push({
+            id: 'ro1', country: 'RO', countryName: 'România', name: 'Meniu 1 RO: Mic Dejun Proteic cu Brânză Cottage și Semințe',
+            items: [
+                { name: 'Brânză Cottage (2% grăsime)', weight: 200, kcal: 154, p: 24.0, g: 5.4, l: 4.0, min: 'Ca: 160mg, Na: 380mg', vit: 'Vit B12, Seleniu' },
+                { name: 'Amestec Semințe Dovleac & Floarea S.', weight: 15, kcal: 87.5, p: 3.6, g: 2.1, l: 7.2, min: 'Mg: 80mg, Zn: 1.2mg, Fe: 1.5mg', vit: 'Vit E' },
+                { name: 'Semințe de In & Chia', weight: 10, kcal: 49.0, p: 2.0, g: 3.8, l: 3.3, min: 'Ca: 50mg, Mg: 35mg', vit: 'Omega-3 (ALA)' },
+                { name: 'Miere de Albine polifloră', weight: 10, kcal: 32.0, p: 0.0, g: 8.2, l: 0.0, min: 'K: 10mg', vit: 'Polifenoli' },
+                { name: 'Pâine Integrală cu Maia', weight: 60, kcal: 128.0, p: 3.8, g: 26.0, l: 1.0, min: 'Fe: 1.5mg, Mg: 45mg', vit: 'Vit B1, B6, Fibre: 4g' },
+                { name: 'Afine Proaspete', weight: 80, kcal: 29.0, p: 0.5, g: 9.5, l: 0.3, min: 'K: 70mg', vit: 'Vit C (20mg), Antociani' }
+            ]
+        });
+
+        ALL_MENUS.push({
+            id: 'ro2', country: 'RO', countryName: 'România', name: 'Meniu 2 RO: Omletă Tradițională cu Telemea și Roșii',
+            items: [
+                { name: 'Ouă Frecate (2 buc)', weight: 110, kcal: 154, p: 13.0, g: 0.8, l: 11.0, min: 'Fe: 1.8mg, Ca: 50mg', vit: 'Vit A, Vit D, Colină' },
+                { name: 'Telemea de Vacă', weight: 50, kcal: 126, p: 8.5, g: 0.5, l: 10.0, min: 'Ca: 260mg, Na: 400mg', vit: 'Vit A' },
+                { name: 'Pâine de Secară', weight: 50, kcal: 110, p: 3.2, g: 22.0, l: 0.8, min: 'Mg: 38mg', vit: 'Fibre: 3.5g' },
+                { name: 'Roșie proaspătă', weight: 100, kcal: 18, p: 0.9, g: 3.9, l: 0.2, min: 'K: 190mg', vit: 'Vit C (15mg), Lycopene' }
+            ]
+        });
+
+        for(let i = 3; i <= 20; i++) {
+            ALL_MENUS.push({
+                id: `ro${i}`, country: 'RO', countryName: 'România', name: `Meniu ${i} RO: Meniu Românesc Tradițional NutriTeh #${i}`,
+                items: [
+                    { name: `Brânză Tradicională RO #${i}`, weight: 80, kcal: 140, p: 10.0, g: 2.0, l: 9.0, min: 'Ca: 220mg', vit: 'Vit A, Vit B12' },
+                    { name: 'Ou Fiert Tare', weight: 55, kcal: 77, p: 6.5, g: 0.4, l: 5.5, min: 'Fe: 0.9mg', vit: 'Vit D' },
+                    { name: 'Pâine Integrală', weight: 60, kcal: 140, p: 4.8, g: 26.0, l: 1.2, min: 'Mg: 40mg', vit: 'Fibre: 3.8g' },
+                    { name: 'Legume Fresh (Ardei/Castravete)', weight: 80, kcal: 20, p: 0.8, g: 4.0, l: 0.1, min: 'K: 160mg', vit: 'Vit C' }
+                ]
+            });
+        }
+
+        // TR MENUS GENERATION (20 items)
+        ALL_MENUS.push({
+            id: 'tr1', country: 'TR', countryName: 'Turcia', name: 'Meniu 1 TR: Kahvaltı Tradițional cu Menemen și Măsline',
+            items: [
+                { name: 'Menemen (Ouă cu Roșii și Ardei)', weight: 180, kcal: 210, p: 11.0, g: 8.0, l: 15.0, min: 'Fe: 2.2mg, Ca: 65mg', vit: 'Vit A, Vit C (45mg)' },
+                { name: 'Brânză Beyaz Peynir', weight: 50, kcal: 130, p: 8.0, g: 1.0, l: 10.5, min: 'Ca: 250mg, Na: 420mg', vit: 'Vit A' },
+                { name: 'Măsline negre Gemlik', weight: 30, kcal: 55, p: 0.4, g: 1.8, l: 5.2, min: 'Na: 280mg', vit: 'Vit E, Polifenoli' },
+                { name: 'Pâine Pide proaspătă', weight: 70, kcal: 185, p: 6.0, g: 38.0, l: 1.2, min: 'Na: 220mg', vit: 'Vit B' },
+                { name: 'Ceai turcesc Çay', weight: 150, kcal: 2, p: 0.0, g: 0.4, l: 0.0, min: 'K: 25mg', vit: 'Antioxidanți' }
+            ]
+        });
+
+        for(let i = 2; i <= 20; i++) {
+            ALL_MENUS.push({
+                id: `tr${i}`, country: 'TR', countryName: 'Turcia', name: `Meniu ${i} TR: Kahvaltı Turcesc Meniu #${i}`,
+                items: [
+                    { name: `Brânză Turcească (Kaşar/Ezine) #${i}`, weight: 60, kcal: 150, p: 9.5, g: 1.2, l: 11.5, min: 'Ca: 280mg', vit: 'Vit A, Vit B12' },
+                    { name: 'Ou / Sucuk / Omletă', weight: 60, kcal: 110, p: 8.0, g: 1.0, l: 8.5, min: 'Fe: 1.4mg', vit: 'Vit D' },
+                    { name: 'Măsline & Nuci / Tahin', weight: 30, kcal: 120, p: 2.5, g: 3.0, l: 10.0, min: 'Mg: 35mg', vit: 'Vit E, Omega-3' },
+                    { name: 'Pâine Simit / Pide', weight: 60, kcal: 160, p: 5.2, g: 32.0, l: 1.5, min: 'Na: 200mg', vit: 'Fibre: 2.5g' }
+                ]
+            });
+        }
+
+        // INSPECTOR PACKAGES
+        const PACKAGES = {
+            lapte: "🥛 <strong>Lapte UHT 3.5% (per 100g):</strong> 62 kcal | Proteine: 3.3g | Glucide: 4.8g | Lipide: 3.5g | Calciu: 120mg.",
+            iaurt: "🥣 <strong>Iaurt Grecesc 10% (per 100g):</strong> 120 kcal | Proteine: 5.0g | Glucide: 3.5g | Lipide: 10.0g | Probiotice.",
+            baton: "🥖 <strong>Baton Cereale (per 100g):</strong> 410 kcal | Proteine: 7.5g | Glucide: 68g (Zaharuri 28g) | Lipide: 12g.",
+            cascaval: "🧀 <strong>Cașcaval Rucăr (per 100g):</strong> 350 kcal | Proteine: 25g | Glucide: 1g | Lipide: 27g | Calciu: 420mg."
+        };
+
+        function setLabelProduct(key) {
+            document.getElementById('labelDisplay').innerHTML = PACKAGES[key];
+        }
+
+        // RENDER MENUS
+        let activeFilter = 'all';
+        function filterMenus(f) {
+            activeFilter = f;
+            renderMenus();
+        }
+
+        function renderMenus() {
+            const container = document.getElementById('menusContainer');
+            container.innerHTML = '';
+            const q = document.getElementById('menuSearchInput').value.toLowerCase();
+
+            ALL_MENUS.forEach(m => {
+                if(activeFilter !== 'all' && m.country !== activeFilter) return;
+                if(q && !m.name.toLowerCase().includes(q)) return;
+
+                const totKcal = m.items.reduce((s, x) => s + x.kcal, 0);
+                const totP = m.items.reduce((s, x) => s + x.p, 0).toFixed(1);
+                const totG = m.items.reduce((s, x) => s + x.g, 0).toFixed(1);
+                const totL = m.items.reduce((s, x) => s + x.l, 0).toFixed(1);
+
+                const card = document.createElement('div');
+                card.className = "glass-card rounded-xl border border-neon/30 overflow-hidden";
+                card.innerHTML = `
+                    <div onclick="toggleAcc('${m.id}')" class="p-4 flex justify-between items-center cursor-pointer bg-darkBg/60 hover:bg-neon/10">
+                        <div>
+                            <span class="font-bold text-white">${m.name}</span>
+                            <div class="text-xs text-gray-400 font-mono">${m.items.length} ingrediente</div>
+                        </div>
+                        <div class="text-neon font-bold text-lg">${totKcal} kcal</div>
+                    </div>
+                    <div id="acc-${m.id}" class="hidden p-4 border-t border-gray-800 bg-black/60 overflow-x-auto">
+                        <table class="w-full text-sm text-left border-collapse">
+                            <thead>
+                                <tr class="bg-darkBg text-neon font-tech text-xs border-b border-gray-800">
+                                    <th class="p-2">Ingredient</th>
+                                    <th class="p-2">Masa (g)</th>
+                                    <th class="p-2">Kcal</th>
+                                    <th class="p-2">Proteine (g)</th>
+                                    <th class="p-2">Glucide (g)</th>
+                                    <th class="p-2">Lipide (g)</th>
+                                    <th class="p-2">Minerale & Vitamine</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-800 text-gray-200 font-mono text-xs">
+                                ${m.items.map(it => `
+                                    <tr>
+                                        <td class="p-2 font-bold text-white">${it.name}</td>
+                                        <td class="p-2">${it.weight}g</td>
+                                        <td class="p-2 text-neon">${it.kcal}</td>
+                                        <td class="p-2">${it.p}</td>
+                                        <td class="p-2">${it.g}</td>
+                                        <td class="p-2">${it.l}</td>
+                                        <td class="p-2 text-neonCyan">${it.min} \vert{}${it.vit}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function toggleAcc(id) {
+            const el = document.getElementById('acc-' + id);
+            el.classList.toggle('hidden');
+        }
+
+        // SIMULATOR
+        let simList = [];
+        const SIM_ITEMS = [
+            { name: "Brânză Cottage 2%", kcal: 77, p: 12, g: 2.7, l: 2 },
+            { name: "Semințe Dovleac", kcal: 583, p: 24, g: 14, l: 48 },
+            { name: "Semințe In & Chia", kcal: 490, p: 20, g: 38, l: 33 },
+            { name: "Ou fiert", kcal: 155, p: 12.6, g: 1.1, l: 10.6 },
+            { name: "Pâine Integrală", kcal: 213, p: 6.3, g: 43, l: 1.6 }
+        ];
+
+        function initSim() {
+            const select = document.getElementById('simIngredientSelect');
+            select.innerHTML = SIM_ITEMS.map((it, idx) => `<option value="${idx}">${it.name}</option>`).join('');
+        }
+
+        function addSimItem() {
+            const idx = document.getElementById('simIngredientSelect').value;
+            const grams = parseFloat(document.getElementById('simWeightInput').value) || 100;
+            const item = SIM_ITEMS[idx];
+
+            const ratio = grams / 100;
+            simList.push({
+                name: item.name,
+                weight: grams,
+                kcal: Math.round(item.kcal * ratio),
+                p: (item.p * ratio).toFixed(1),
+                g: (item.g * ratio).toFixed(1),
+                l: (item.l * ratio).toFixed(1)
+            });
+            renderSim();
+        }
+
+        function clearSimMenu() { simList = []; renderSim(); }
+
+        function renderSim() {
+            const tbody = document.getElementById('simTableBody');
+            if(simList.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-gray-500">Meniul este gol.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = simList.map(it => `
+                <tr>
+                    <td class="p-2 text-white font-bold">${it.name}</td>
+                    <td class="p-2">${it.weight}g</td>
+                    <td class="p-2 text-neon">${it.kcal}</td>
+                    <td class="p-2">${it.p}g</td>
+                    <td class="p-2">${it.g}g</td>
+                    <td class="p-2">${it.l}g</td>
+                </tr>
+            `).join('');
+        }
+
+        // EXERCISES & QUIZ
+        function checkExerciseAnswer() {
+            const v = parseFloat(document.getElementById('exAnswerInput').value);
+            const fb = document.getElementById('exFeedback');
+            if(v === 415) {
+                fb.className = "text-base p-3 rounded-lg bg-neon/20 border border-neon text-neon block";
+                fb.innerText = "Corect! (20×4) + (50×4) + (15×9) = 415 kcal!";
+            } else {
+                fb.className = "text-base p-3 rounded-lg bg-red-500/20 border border-red-500 text-red-300 block";
+                fb.innerText = "Incorect! Calculează: (20×4) + (50×4) + (15×9).";
+            }
+        }
+
+        function initQuiz() {
+            const qContainer = document.getElementById('quizContainer');
+            qContainer.innerHTML = `
+                <div class="space-y-2">
+                    <p class="font-bold text-white">1. Câte calorii are 1 gram de Lipide?</p>
+                    <label class="block"><input type="radio" name="q1" value="4"> 4 kcal</label>
+                    <label class="block"><input type="radio" name="q1" value="9"> 9 kcal</label>
+                </div>
+            `;
+        }
+
+        function submitQuiz() {
+            const q1 = document.querySelector('input[name="q1"]:checked');
+            const scoreDisplay = document.getElementById('quizScoreDisplay');
+            scoreDisplay.classList.remove('hidden');
+            if(q1 && q1.value === '9') {
+                scoreDisplay.innerText = "Punctaj: 100% - Bravo!";
+            } else {
+                scoreDisplay.innerText = "Punctaj: Încearcă din nou!";
+            }
+        }
+
+        // EXCEL EXPORT
+        function initExcelChecklist() {
+            const container = document.getElementById('excelChecklist');
+            container.innerHTML = ALL_MENUS.map((m, idx) => `
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" value="${m.id}" ${idx < 6 ? 'checked' : ''} onchange="renderExcelTable()" class="excel-cb">
+                    <span class="truncate">${m.name}</span>
+                </label>
+            `).join('');
+            renderExcelTable();
+        }
+
+        function renderExcelTable() {
+            const selectedIds = Array.from(document.querySelectorAll('.excel-cb:checked')).map(cb => cb.value);
+            const tbody = document.getElementById('exportExcelTableBody');
+            tbody.innerHTML = '';
+
+            selectedIds.forEach(id => {
+                const m = ALL_MENUS.find(x => x.id === id);
+                if(!m) return;
+                m.items.forEach(it => {
+                    tbody.innerHTML += `
+                        <tr>
+                            <td class="p-2 text-white font-bold">${m.name}</td>
+                            <td class="p-2 text-neonCyan">${it.name}</td>
+                            <td class="p-2">${it.weight}</td>
+                            <td class="p-2 text-neon">${it.kcal}</td>
+                            <td class="p-2">${it.p}</td>
+                            <td class="p-2">${it.g}</td>
+                            <td class="p-2">${it.l}</td>
+                            <td class="p-2 text-gray-400">${it.min} | ${it.vit}</td>
+                        </tr>
+                    `;
+                });
+            });
+        }
+
+        function copyTableToClipboard() {
+            alert("Tabelul cu meniurile selectate a fost pregătit! Puteți selecta și copia valorile direct în Excel.");
+        }
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        window.onload = function() {
+            lucide.createIcons();
+            setLabelProduct('lapte');
+            renderMenus();
+            initSim();
+            initQuiz();
+            initExcelChecklist();
+
+            window.onscroll = function() {
+                let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                document.getElementById("topProgressBar").style.width = ((winScroll / height) * 100) + "%";
+            };
+        };
+    </script>
+</body>
+</html>

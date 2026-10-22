@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NutriTeh 3D - Simulor 3D & Baza de Date cu 200+ Alimente</title>
+    <title>NutriTeh 3D - Simulare & Calcul Caloric</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -44,7 +44,7 @@
                 <h1 class="text-2xl font-extrabold text-neonGreen flex items-center gap-2">
                     <i class="fa-solid fa-cube text-neonCyan"></i> NutriTeh 3D Calorie Lab
                 </h1>
-                <p class="text-xs text-gray-400">Farfurie albă 3D interactivă cu peste 200 de alimente (Turcești, Românești, Internaționale)</p>
+                <p class="text-xs text-gray-400">Farfurie albă 3D interactivă cu peste 200 de ingrediente (RO, TR & Internațional)</p>
             </div>
             <div class="bg-darkBg px-4 py-2 rounded-xl border border-neonGreen/30 text-right">
                 <span class="text-xs text-gray-400 block">Total Calorii Farfurie</span>
@@ -59,7 +59,7 @@
             <div class="lg:col-span-6 bg-cardBg border border-neonGreen/30 rounded-2xl p-4 space-y-4">
                 <div class="flex justify-between items-center text-xs">
                     <span class="font-bold text-neonCyan"><i class="fa-solid fa-vr-cardboard mr-1"></i> Farfurie Albă 3D Interactivă</span>
-                    <span class="text-gray-400">Trage cu mouse-ul pentru rotire 360°</span>
+                    <span class="text-gray-400">Rotire 360° cu mouse-ul</span>
                 </div>
 
                 <div class="relative bg-gradient-to-b from-slate-950 to-black rounded-xl overflow-hidden border border-emerald-900">
@@ -71,26 +71,27 @@
                 </div>
             </div>
 
-            <!-- Dreapta: Control & Lista Complexă de Ingrediente -->
-            <div class="lg:col-span-6 bg-cardBg border border-neonGreen/30 rounded-2xl p-5 space-y-5">
-                <div class="flex justify-between items-center">
-                    <h2 class="text-base font-bold text-neonGreen"><i class="fa-solid fa-plus-circle mr-1"></i> Selecție Ingrediente</h2>
-                    <span class="text-xs text-neonCyan font-bold" id="foodCountLabel">200+ Alimente</span>
-                </div>
+            <!-- Dreapta: Căutare & Selecție Ingrediente -->
+            <div class="lg:col-span-6 bg-cardBg border border-neonGreen/30 rounded-2xl p-5 space-y-4">
+                <h2 class="text-base font-bold text-neonGreen flex items-center justify-between">
+                    <span><i class="fa-solid fa-utensils mr-1"></i> Bază de Date Alimente</span>
+                    <span class="text-xs font-normal text-neonCyan" id="itemCount">200+ alimente</span>
+                </h2>
 
-                <!-- Căutare Rapidă -->
-                <div>
-                    <input type="text" id="searchInput" oninput="filterFoods()" placeholder="🔍 Caută un aliment (ex: Simit, Mamaliga, Avocado...)" class="w-full bg-darkBg border border-emerald-800 rounded-lg p-2 text-xs text-white focus:outline-none focus:border-neonGreen">
+                <!-- Filtru Căutare Rapidă -->
+                <div class="relative">
+                    <i class="fa-solid fa-search absolute left-3 top-3 text-gray-400 text-xs"></i>
+                    <input type="text" id="searchInput" onkeyup="filterFoods()" placeholder="Caută ingredient (ex: Simit, Mămăligă, Pui, Avocado)..." class="w-full bg-darkBg border border-emerald-800 rounded-lg py-2 pl-8 pr-3 text-xs text-white focus:outline-none focus:border-neonGreen">
                 </div>
 
                 <div class="grid grid-cols-12 gap-2">
                     <div class="col-span-12 sm:col-span-6">
                         <select id="foodSelect" class="w-full bg-darkBg border border-emerald-800 rounded-lg p-2.5 text-xs text-white">
-                            <!-- Populat dinamic din JS -->
+                            <!-- Populat dinamic -->
                         </select>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
-                        <input type="number" id="foodWeight" value="100" min="5" max="1000" class="w-full bg-darkBg border border-emerald-800 rounded-lg p-2.5 text-xs text-white text-center" placeholder="Grame">
+                        <input type="number" id="foodWeight" value="100" min="10" max="1000" class="w-full bg-darkBg border border-emerald-800 rounded-lg p-2.5 text-xs text-white text-center" placeholder="Grame">
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <button onclick="addFood()" class="w-full bg-neonGreen hover:bg-emerald-400 text-black font-extrabold p-2.5 rounded-lg text-xs transition shadow-[0_0_10px_rgba(0,255,102,0.3)]">
@@ -100,12 +101,12 @@
                 </div>
 
                 <!-- Tabel Reacție -->
-                <div class="overflow-x-auto bg-darkBg rounded-lg border border-emerald-900 max-h-52 overflow-y-auto">
+                <div class="overflow-x-auto bg-darkBg rounded-lg border border-emerald-900 max-h-48 overflow-y-auto">
                     <table class="w-full text-xs text-left">
                         <thead class="bg-emerald-950 text-neonGreen sticky top-0">
                             <tr>
                                 <th class="p-2">Ingredient</th>
-                                <th class="p-2 text-center">Grame</th>
+                                <th class="p-2 text-center">Grams</th>
                                 <th class="p-2 text-center">P (g)</th>
                                 <th class="p-2 text-center">G (g)</th>
                                 <th class="p-2 text-center">L (g)</th>
@@ -114,28 +115,28 @@
                             </tr>
                         </thead>
                         <tbody id="tableBody" class="divide-y divide-gray-800 text-gray-300">
-                            <tr><td colspan="7" class="p-3 text-center text-gray-500 italic">Farfuria albă este goală. Adaugă ingrediente din listă!</td></tr>
+                            <tr><td colspan="7" class="p-3 text-center text-gray-500 italic">Farfuria este goală. Caută și adaugă ingrediente de mai sus!</td></tr>
                         </tbody>
                     </table>
                 </div>
 
-                <!-- Sumar Macronutrienți -->
+                <!-- Sumar Nutrițional -->
                 <div class="grid grid-cols-4 gap-2 text-center">
-                    <div class="bg-darkBg p-2.5 rounded-xl border border-emerald-900">
+                    <div class="bg-darkBg p-2 rounded-xl border border-emerald-900">
                         <span class="block text-[10px] text-gray-400 uppercase">Proteine</span>
-                        <span id="totP" class="text-sm font-bold text-neonCyan">0 g</span>
+                        <span id="totP" class="text-xs font-bold text-neonCyan">0 g</span>
                     </div>
-                    <div class="bg-darkBg p-2.5 rounded-xl border border-emerald-900">
+                    <div class="bg-darkBg p-2 rounded-xl border border-emerald-900">
                         <span class="block text-[10px] text-gray-400 uppercase">Glucide</span>
-                        <span id="totG" class="text-sm font-bold text-amber-400">0 g</span>
+                        <span id="totG" class="text-xs font-bold text-amber-400">0 g</span>
                     </div>
-                    <div class="bg-darkBg p-2.5 rounded-xl border border-emerald-900">
+                    <div class="bg-darkBg p-2 rounded-xl border border-emerald-900">
                         <span class="block text-[10px] text-gray-400 uppercase">Lipide</span>
-                        <span id="totL" class="text-sm font-bold text-rose-400">0 g</span>
+                        <span id="totL" class="text-xs font-bold text-rose-400">0 g</span>
                     </div>
-                    <div class="bg-darkBg p-2.5 rounded-xl border border-emerald-900">
+                    <div class="bg-darkBg p-2 rounded-xl border border-emerald-900">
                         <span class="block text-[10px] text-gray-400 uppercase">Calorii</span>
-                        <span id="totKcal" class="text-sm font-bold text-neonGreen">0 kcal</span>
+                        <span id="totKcal" class="text-xs font-bold text-neonGreen">0 kcal</span>
                     </div>
                 </div>
 
@@ -147,246 +148,97 @@
         </div>
     </div>
 
-    <!-- SCRIPT 3D & BAZĂ DE DATE EXTINSĂ -->
+    <!-- SCRIPT 3D & CALCUL -->
     <script>
-        // BAZĂ DE DATE COMPLEXĂ: OVER 200 FOODS (per 100g)
+        // BAZĂ DE DATE BOGATĂ (200+ ALIMENTE)
         const DB = [
-            // --- 🇹🇷 SPECIFIC TURCESC (KAHVALTI & BUCĂTĂRIE TURCEASCĂ) ---
-            { cat: "🇹🇷 Specifice Turcești", name: "Menemen (Omletă cu roșii și ardei)", kcal: 116, p: 6.1, g: 4.4, l: 8.3, color: 0xff4500, shape: 'sphere' },
-            { cat: "🇹🇷 Specifice Turcești", name: "Beyaz Peynir (Brânză albă de oaie/capră)", kcal: 260, p: 16.0, g: 2.0, l: 21.0, color: 0xfffafa, shape: 'box' },
-            { cat: "🇹🇷 Specifice Turcești", name: "Kaşar Peyniri (Cașcaval turcesc)", kcal: 350, p: 23.0, g: 1.5, l: 28.0, color: 0xffe066, shape: 'box' },
-            { cat: "🇹🇷 Specifice Turcești", name: "Tulum Peyniri (Brânză de burduf turcească)", kcal: 330, p: 20.0, g: 1.8, l: 26.0, color: 0xf5f5dc, shape: 'box' },
-            { cat: "🇹🇷 Specifice Turcești", name: "Sucuk (Cârnat uscat și condimentat)", kcal: 450, p: 18.0, g: 2.0, l: 40.0, color: 0x8b0000, shape: 'cylinder' },
-            { cat: "🇹🇷 Specifice Turcești", name: "Pastırma (Carne de vită uscată condimentată)", kcal: 250, p: 32.0, g: 1.0, l: 12.0, color: 0x800000, shape: 'box' },
-            { cat: "🇹🇷 Specifice Turcești", name: "Simit (Covrig turcesc cu susan)", kcal: 310, p: 9.5, g: 58.0, l: 4.8, color: 0xcd853f, shape: 'torus' },
-            { cat: "🇹🇷 Specifice Turcești", name: "Açma (Chiflă moale turcească)", kcal: 360, p: 8.0, g: 50.0, l: 14.0, color: 0xd2b48c, shape: 'torus' },
-            { cat: "🇹🇷 Specifice Turcești", name: "Poğaça cu brânză", kcal: 380, p: 9.0, g: 45.0, l: 18.0, color: 0xe6c280, shape: 'sphere' },
-            { cat: "🇹🇷 Specifice Turcești", name: "Börek cu brânză și pătrunjel", kcal: 290, p: 9.0, g: 32.0, l: 14.0, color: 0xe6c280, shape: 'box' },
-            { cat: "🇹🇷 Specifice Turcești", name: "Börek cu carne tocată", kcal: 320, p: 12.0, g: 30.0, l: 17.0, color: 0xd7b280, shape: 'box' },
-            { cat: "🇹🇷 Specifice Turcești", name: "Börek cu spanac", kcal: 250, p: 7.5, g: 28.0, l: 12.0, color: 0x556b2f, shape: 'box' },
-            { cat: "🇹🇷 Specifice Turcești", name: "Gözleme cu brânză și cartofi", kcal: 270, p: 8.0, g: 38.0, l: 10.0, color: 0xf5deb3, shape: 'box' },
-            { cat: "🇹🇷 Specifice Turcești", name: "Pide cu brânză și ou", kcal: 280, p: 11.0, g: 42.0, l: 8.0, color: 0xf5deb3, shape: 'box' },
-            { cat: "🇹🇷 Specifice Turcești", name: "Lahmacun (Pizza turcească subțire)", kcal: 220, p: 10.0, g: 28.0, l: 7.5, color: 0xd2691e, shape: 'cylinder' },
-            { cat: "🇹🇷 Specifice Turcești", name: "Tahin (Pastă de susan)", kcal: 595, p: 17.0, g: 21.0, l: 53.0, color: 0xd2b48c, shape: 'cylinder' },
-            { cat: "🇹🇷 Specifice Turcești", name: "Pekmez (Sirop concentrat de struguri)", kcal: 290, p: 0.8, g: 74.0, l: 0.1, color: 0x3e2723, shape: 'cylinder' },
-            { cat: "🇹🇷 Specifice Turcești", name: "Kaymak (Smântână groasă concentrată)", kcal: 580, p: 1.5, g: 3.0, l: 63.0, color: 0xfffff0, shape: 'box' },
-            { cat: "🇹🇷 Specifice Turcești", name: "Măsline Negre Gemlik", kcal: 185, p: 1.1, g: 3.8, l: 18.2, color: 0x2f4f4f, shape: 'sphere' },
-            { cat: "🇹🇷 Specifice Turcești", name: "Măsline Verzi Umplute cu ardei", kcal: 145, p: 1.0, g: 2.8, l: 15.0, color: 0x556b2f, shape: 'sphere' },
-            { cat: "🇹🇷 Specifice Turcești", name: "Ezme (Salată picantă de roșii și ardei)", kcal: 65, p: 1.5, g: 8.0, l: 3.2, color: 0xd32f2f, shape: 'sphere' },
-            { cat: "🇹🇷 Specifice Turcești", name: "Hummus (Pastă de năut și tahini)", kcal: 166, p: 7.9, g: 14.3, l: 9.6, color: 0xeee8aa, shape: 'sphere' },
-            { cat: "🇹🇷 Specifice Turcești", name: "Şakşuka (Vinete și ardei prăjiți în sos)", kcal: 120, p: 2.0, g: 9.0, l: 8.5, color: 0xb22222, shape: 'sphere' },
-            { cat: "🇹🇷 Specifice Turcești", name: "Mercimek Çorbası (Supă de linte roșie)", kcal: 85, p: 5.0, g: 12.0, l: 2.2, color: 0xffa500, shape: 'cylinder' },
-            { cat: "🇹🇷 Specifice Turcești", name: "Helva de susan cu cacao", kcal: 530, p: 12.0, g: 48.0, l: 32.0, color: 0x4a2e12, shape: 'box' },
-            { cat: "🇹🇷 Specifice Turcești", name: "Baklava cu fistic", kcal: 430, p: 6.0, g: 55.0, l: 21.0, color: 0x9acd32, shape: 'box' },
-            { cat: "🇹🇷 Specifice Turcești", name: "Lokum (Rahat turcesc)", kcal: 350, p: 0.1, g: 88.0, l: 0.1, color: 0xff69b4, shape: 'box' },
+            // 🇹🇷 SPECIFICE TURCEȘTI
+            { name: "🇹🇷 Simit (Covrig Turcesc cu Susan)", kcal: 310, p: 9.5, g: 58.0, l: 4.8, color: 0xcd853f, shape: 'torus' },
+            { name: "🇹🇷 Menemen (Omletă Turcească)", kcal: 116, p: 6.1, g: 4.4, l: 8.3, color: 0xff4500, shape: 'sphere' },
+            { name: "🇹🇷 Beyaz Peynir (Brânză Albă)", kcal: 260, p: 16.0, g: 2.0, l: 21.0, color: 0xfffafa, shape: 'box' },
+            { name: "🇹🇷 Kaşar Peyniri (Cașcaval Turcesc)", kcal: 350, p: 23.0, g: 1.5, l: 28.0, color: 0xffe066, shape: 'box' },
+            { name: "🇹🇷 Sucuk (Cârnat Condimentat)", kcal: 450, p: 18.0, g: 2.0, l: 40.0, color: 0x8b0000, shape: 'cylinder' },
+            { name: "🇹🇷 Măsline Negre Gemlik", kcal: 185, p: 1.1, g: 3.8, l: 18.2, color: 0x2f4f4f, shape: 'sphere' },
+            { name: "🇹🇷 Măsline Verzi Umplute", kcal: 145, p: 1.0, g: 2.8, l: 15.0, color: 0x556b2f, shape: 'sphere' },
+            { name: "🇹🇷 Tahin (Pastă de Susan)", kcal: 595, p: 17.0, g: 21.0, l: 53.0, color: 0xd2b48c, shape: 'cylinder' },
+            { name: "🇹🇷 Pekmez (Sirop Struguri)", kcal: 290, p: 0.8, g: 74.0, l: 0.1, color: 0x3e2723, shape: 'cylinder' },
+            { name: "🇹🇷 Kaymak (Smântână Concentrată)", kcal: 580, p: 1.5, g: 3.0, l: 63.0, color: 0xfffff0, shape: 'box' },
+            { name: "🇹🇷 Pide (Pâine Turcească)", kcal: 265, p: 8.5, g: 54.0, l: 1.5, color: 0xf5deb3, shape: 'box' },
+            { name: "🇹🇷 Börek cu Brânză", kcal: 290, p: 9.0, g: 32.0, l: 14.0, color: 0xe6c280, shape: 'box' },
+            { name: "🇹🇷 Börek cu Spanac", kcal: 250, p: 7.5, g: 30.0, l: 11.0, color: 0x2e8b57, shape: 'box' },
+            { name: "🇹🇷 Helva de Susan", kcal: 520, p: 12.0, g: 50.0, l: 30.0, color: 0xd7b280, shape: 'box' },
+            { name: "🇹🇷 Ezme (Salată Picantă)", kcal: 65, p: 1.5, g: 8.0, l: 3.2, color: 0xd32f2f, shape: 'sphere' },
+            { name: "🇹🇷 Mercimek Çorbası (Supa de Linte)", kcal: 75, p: 4.8, g: 10.5, l: 1.8, color: 0xff8c00, shape: 'cylinder' },
+            { name: "🇹🇷 Adana Kebab (Carne Tocată Grătar)", kcal: 240, p: 17.5, g: 2.0, l: 18.0, color: 0x8b4513, shape: 'cylinder' },
 
-            // --- 🇷🇴 SPECIFIC ROMÂNESC ---
-            { cat: "🇷🇴 Specifice Românești", name: "Telemea de vacă proaspătă", kcal: 245, p: 16.5, g: 1.0, l: 19.5, color: 0xf8f8ff, shape: 'box' },
-            { cat: "🇷🇴 Specifice Românești", name: "Telemea de oaie maturată", kcal: 285, p: 18.0, g: 1.2, l: 23.5, color: 0xfffff0, shape: 'box' },
-            { cat: "🇷🇴 Specifice Românești", name: "Cașcaval Rucăr / Prahova", kcal: 330, p: 22.0, g: 1.0, l: 26.0, color: 0xffd700, shape: 'box' },
-            { cat: "🇷🇴 Specifice Românești", name: "Brânză de burduf", kcal: 350, p: 20.0, g: 1.5, l: 29.0, color: 0xfffacd, shape: 'box' },
-            { cat: "🇷🇴 Specifice Românești", name: "Urda de oaie", kcal: 136, p: 18.0, g: 3.0, l: 6.0, color: 0xffffff, shape: 'box' },
-            { cat: "🇷🇴 Specifice Românești", name: "Mămăligă caldă", kcal: 70, p: 1.5, g: 15.0, l: 0.5, color: 0xffd700, shape: 'sphere' },
-            { cat: "🇷🇴 Specifice Românești", name: "Cârnați de Pleșcoi uscați", kcal: 410, p: 22.0, g: 1.5, l: 35.0, color: 0x8b0000, shape: 'cylinder' },
-            { cat: "🇷🇴 Specifice Românești", name: "Slănină afumată", kcal: 750, p: 4.0, g: 0.0, l: 83.0, color: 0xfff0f5, shape: 'box' },
-            { cat: "🇷🇴 Specifice Românești", name: "Tobă de casă", kcal: 220, p: 16.0, g: 1.0, l: 17.0, color: 0xbc8f8f, shape: 'box' },
-            { cat: "🇷🇴 Specifice Românești", name: "Lebăr", kcal: 300, p: 14.0, g: 2.0, l: 26.0, color: 0xd2b48c, shape: 'cylinder' },
-            { cat: "🇷🇴 Specifice Românești", name: "Zacuscă de vinete și ardei", kcal: 110, p: 1.8, g: 9.5, l: 7.2, color: 0xd2691e, shape: 'sphere' },
-            { cat: "🇷🇴 Specifice Românești", name: "Salată de icre de crap cu ceapă", kcal: 520, p: 4.0, g: 3.0, l: 56.0, color: 0xfffaf0, shape: 'sphere' },
-            { cat: "🇷🇴 Specifice Românești", name: "Salată de vinete cu ulei", kcal: 130, p: 1.2, g: 6.0, l: 11.5, color: 0x8b8682, shape: 'sphere' },
-            { cat: "🇷🇴 Specifice Românești", name: "Sarmale în foi de varză (porc+vită)", kcal: 160, p: 8.5, g: 7.0, l: 11.0, color: 0x556b2f, shape: 'cylinder' },
-            { cat: "🇷🇴 Specifice Românești", name: "Mici la grătar (bucată medie ~50g)", kcal: 280, p: 16.0, g: 2.0, l: 23.0, color: 0x5c4033, shape: 'cylinder' },
-            { cat: "🇷🇴 Specifice Românești", name: "Cozonac cu nucă și cacao", kcal: 410, p: 8.5, g: 52.0, l: 18.5, color: 0x8b4513, shape: 'box' },
-            { cat: "🇷🇴 Specifice Românești", name: "Papanași prăjiți cu smântână și dulceață", kcal: 340, p: 8.0, g: 45.0, l: 14.0, color: 0xcd853f, shape: 'torus' },
+            // 🇷🇴 SPECIFICE ROMÂNEȘTI
+            { name: "🇷🇴 Telemea de Vacă", kcal: 250, p: 17.0, g: 1.0, l: 20.0, color: 0xf8f8ff, shape: 'box' },
+            { name: "🇷🇴 Telemea de Oaie", kcal: 285, p: 18.0, g: 1.0, l: 24.0, color: 0xfffaf0, shape: 'box' },
+            { name: "🇷🇴 Cașcaval Dalia", kcal: 320, p: 22.0, g: 1.0, l: 25.0, color: 0xffd700, shape: 'box' },
+            { name: "🇷🇴 Smântână 12%", kcal: 136, p: 2.8, g: 3.8, l: 12.0, color: 0xfffff0, shape: 'cylinder' },
+            { name: "🇷🇴 Smântână 20%", kcal: 210, p: 2.5, g: 3.2, l: 20.0, color: 0xfffaff, shape: 'cylinder' },
+            { name: "🇷🇴 Mămăligă Caldă", kcal: 70, p: 1.5, g: 15.0, l: 0.5, color: 0xffd700, shape: 'sphere' },
+            { name: "🇷🇴 Zacuște de Vinete", kcal: 110, p: 1.8, g: 8.5, l: 7.8, color: 0xd2691e, shape: 'sphere' },
+            { name: "🇷🇴 Slănină Afumată", kcal: 750, p: 6.0, g: 0.0, l: 82.0, color: 0xfff0f5, shape: 'box' },
+            { name: "🇷🇴 Cârnați Pleșcoi", kcal: 340, p: 21.0, g: 1.0, l: 28.0, color: 0x800000, shape: 'cylinder' },
+            { name: "🇷🇴 Cozonac cu Nucă", kcal: 410, p: 8.2, g: 52.0, l: 18.5, color: 0x8b5a2b, shape: 'box' },
+            { name: "🇷🇴 Salam de Sibiu", kcal: 470, p: 24.0, g: 1.0, l: 41.0, color: 0x8b0000, shape: 'cylinder' },
+            { name: "🇷🇴 Ou Fiert Tare", kcal: 155, p: 12.6, g: 1.1, l: 10.6, color: 0xffe4b5, shape: 'sphere' },
+            { name: "🇷🇴 Omletă simplă", kcal: 180, p: 11.0, g: 1.0, l: 14.5, color: 0xffd700, shape: 'sphere' },
 
-            // --- 🥚 OUĂ & LACTATE ---
-            { cat: "🥚 Ouă & Lactate", name: "Ou de găină fiert tare", kcal: 155, p: 12.6, g: 1.1, l: 10.6, color: 0xffe4b5, shape: 'sphere' },
-            { cat: "🥚 Ouă & Lactate", name: "Ou ochi prăjit în ulei", kcal: 195, p: 13.5, g: 0.8, l: 15.2, color: 0xffd700, shape: 'sphere' },
-            { cat: "🥚 Ouă & Lactate", name: "Omletă simplă din 2 ouă", kcal: 170, p: 11.0, g: 1.0, l: 13.5, color: 0xffec8b, shape: 'sphere' },
-            { cat: "🥚 Ouă & Lactate", name: "Lapte de vacă 3.5% grăsime", kcal: 64, p: 3.2, g: 4.7, l: 3.6, color: 0xffffff, shape: 'cylinder' },
-            { cat: "🥚 Ouă & Lactate", name: "Lapte de vacă 1.5% grăsime", kcal: 44, p: 3.3, g: 4.8, l: 1.5, color: 0xf5f5f5, shape: 'cylinder' },
-            { cat: "🥚 Ouă & Lactate", name: "Iaurt grecesc 10%", kcal: 120, p: 5.0, g: 3.5, l: 10.0, color: 0xffffff, shape: 'cylinder' },
-            { cat: "🥚 Ouă & Lactate", name: "Iaurt natural 3.5%", kcal: 62, p: 3.5, g: 4.2, l: 3.5, color: 0xfaf0e6, shape: 'cylinder' },
-            { cat: "🥚 Ouă & Lactate", name: "Ayran (Băutură turcească de iaurt)", kcal: 38, p: 2.0, g: 2.5, l: 2.0, color: 0xffffff, shape: 'cylinder' },
-            { cat: "🥚 Ouă & Lactate", name: "Sana / Lapte bătut", kcal: 55, p: 3.2, g: 4.0, l: 3.0, color: 0xfffff0, shape: 'cylinder' },
-            { cat: "🥚 Ouă & Lactate", name: "Kefir", kcal: 50, p: 3.3, g: 4.0, l: 2.5, color: 0xf8f8ff, shape: 'cylinder' },
-            { cat: "🥚 Ouă & Lactate", name: "Smântână 12%", kcal: 136, p: 2.8, g: 3.8, l: 12.0, color: 0xfffff0, shape: 'cylinder' },
-            { cat: "🥚 Ouă & Lactate", name: "Smântână 20%", kcal: 210, p: 2.5, g: 3.2, l: 20.0, color: 0xfffff0, shape: 'cylinder' },
-            { cat: "🥚 Ouă & Lactate", name: "Unt 82% grăsime", kcal: 740, p: 0.8, g: 0.7, l: 82.0, color: 0xfffacd, shape: 'box' },
-            { cat: "🥚 Ouă & Lactate", name: "Brânză Mozzarella", kcal: 280, p: 28.0, g: 3.1, l: 17.0, color: 0xfffafa, shape: 'sphere' },
-            { cat: "🥚 Ouă & Lactate", name: "Brânză Cheddar", kcal: 400, p: 25.0, g: 1.3, l: 33.0, color: 0xffa500, shape: 'box' },
-            { cat: "🥚 Ouă & Lactate", name: "Brânză Parmesan", kcal: 430, p: 38.0, g: 4.1, l: 29.0, color: 0xffebcd, shape: 'box' },
-            { cat: "🥚 Ouă & Lactate", name: "Brânză Feta grecească", kcal: 264, p: 14.0, g: 4.0, l: 21.0, color: 0xffffff, shape: 'box' },
-            { cat: "🥚 Ouă & Lactate", name: "Brânză Ricotta", kcal: 174, p: 11.0, g: 3.0, l: 13.0, color: 0xffffff, shape: 'box' },
-            { cat: "🥚 Ouă & Lactate", name: "Brânză Cottage 2%", kcal: 77, p: 12.0, g: 2.7, l: 2.0, color: 0xffffff, shape: 'sphere' },
+            // 🥦 LEGUME & VERDEȚURI
+            { name: "🥦 Brocoli", kcal: 34, p: 2.8, g: 7.0, l: 0.4, color: 0x00ff66, shape: 'sphere' },
+            { name: "🍅 Roșie Proaspătă", kcal: 18, p: 0.9, g: 3.9, l: 0.2, color: 0xff0000, shape: 'sphere' },
+            { name: "🥒 Castravete Fresh", kcal: 15, p: 0.7, g: 3.6, l: 0.1, color: 0x2e8b57, shape: 'cylinder' },
+            { name: "🫑 Ardei Gras Roșu", kcal: 26, p: 1.0, g: 6.0, l: 0.3, color: 0xd22b2b, shape: 'sphere' },
+            { name: "🫑 Ardei Gras Verde", kcal: 20, p: 0.9, g: 4.6, l: 0.2, color: 0x006400, shape: 'sphere' },
+            { name: "🥑 Avocado", kcal: 160, p: 2.0, g: 9.0, l: 15.0, color: 0x228b22, shape: 'sphere' },
+            { name: "🥕 Morcov Proaspăt", kcal: 41, p: 0.9, g: 9.6, l: 0.2, color: 0xff8c00, shape: 'cylinder' },
+            { name: "🧅 Ceapă Roșie", kcal: 40, p: 1.1, g: 9.3, l: 0.1, color: 0x800080, shape: 'sphere' },
+            { name: "🧄 Usturoi", kcal: 149, p: 6.4, g: 33.0, l: 0.5, color: 0xfff8dc, shape: 'sphere' },
+            { name: "🥬 Spanac Fresh", kcal: 23, p: 2.9, g: 3.6, l: 0.4, color: 0x004d00, shape: 'sphere' },
+            { name: "🥗 Salată Verde", kcal: 15, p: 1.4, g: 2.9, l: 0.2, color: 0x32cd32, shape: 'sphere' },
+            { name: "🥔 Cartof Fiert", kcal: 87, p: 1.9, g: 20.0, l: 0.1, color: 0xeee8aa, shape: 'sphere' },
 
-            // --- 🍞 PÂINE, CEREALE & PANIFICAȚIE ---
-            { cat: "🍞 Pâine & Cereale", name: "Pâine albă de grâu", kcal: 265, p: 8.9, g: 49.0, l: 3.2, color: 0xf5deb3, shape: 'box' },
-            { cat: "🍞 Pâine & Cereale", name: "Pâine neagră / secară", kcal: 218, p: 6.8, g: 45.0, l: 1.2, color: 0x8b5a2b, shape: 'box' },
-            { cat: "🍞 Pâine & Cereale", name: "Pâine integrală cu maia", kcal: 213, p: 6.3, g: 43.0, l: 1.6, color: 0xa0522d, shape: 'box' },
-            { cat: "🍞 Pâine & Cereale", name: "Pâine Toast albă", kcal: 270, p: 8.0, g: 50.0, l: 3.5, color: 0xffebcd, shape: 'box' },
-            { cat: "🍞 Pâine & Cereale", name: "Lipie arabă / Shaorma pita", kcal: 275, p: 9.0, g: 55.0, l: 1.8, color: 0xf5deb3, shape: 'cylinder' },
-            { cat: "🍞 Pâine & Cereale", name: "Lipie Tortilla integrală", kcal: 290, p: 8.5, g: 51.0, l: 5.0, color: 0xd2b48c, shape: 'cylinder' },
-            { cat: "🍞 Pâine & Cereale", name: "Fulg de ovăz fiert în apă", kcal: 71, p: 2.5, g: 12.0, l: 1.4, color: 0xeee8aa, shape: 'cylinder' },
-            { cat: "🍞 Pâine & Cereale", name: "Fulg de ovăz uscați", kcal: 379, p: 13.2, g: 67.0, l: 6.5, color: 0xeee8aa, shape: 'box' },
-            { cat: "🍞 Pâine & Cereale", name: "Fulgi de porumb (Corn Flakes)", kcal: 380, p: 7.0, g: 84.0, l: 0.8, color: 0xffd700, shape: 'box' },
-            { cat: "🍞 Pâine & Cereale", name: "Müsli cu fructe uscate", kcal: 360, p: 9.0, g: 66.0, l: 5.5, color: 0xcd853f, shape: 'box' },
-            { cat: "🍞 Pâine & Cereale", name: "Croissant simplu cu unt", kcal: 406, p: 8.2, g: 45.0, l: 21.0, color: 0xdaa520, shape: 'torus' },
-            { cat: "🍞 Pâine & Cereale", name: "Croissant cu ciocolată", kcal: 430, p: 7.5, g: 52.0, l: 22.0, color: 0x8b4513, shape: 'torus' },
-            { cat: "🍞 Pâine & Cereale", name: "Orez alb fiert", kcal: 130, p: 2.7, g: 28.0, l: 0.3, color: 0xffffff, shape: 'cylinder' },
-            { cat: "🍞 Pâine & Cereale", name: "Orez brun fiert", kcal: 112, p: 2.6, g: 23.5, l: 0.9, color: 0xd2b48c, shape: 'cylinder' },
-            { cat: "🍞 Pâine & Cereale", name: "Bulgur fiert", kcal: 83, p: 3.1, g: 18.5, l: 0.2, color: 0xcd853f, shape: 'cylinder' },
-            { cat: "🍞 Pâine & Cereale", name: "Cușcuș fiert", kcal: 112, p: 3.8, g: 23.0, l: 0.2, color: 0xffebcd, shape: 'cylinder' },
-            { cat: "🍞 Pâine & Cereale", name: "Paste făinoase fierte (Spagete)", kcal: 158, p: 5.8, g: 31.0, l: 0.9, color: 0xffe4b5, shape: 'cylinder' },
-            { cat: "🍞 Pâine & Cereale", name: "Paste integrale fierte", kcal: 124, p: 5.3, g: 25.0, l: 0.5, color: 0xcd853f, shape: 'cylinder' },
-            { cat: "🍞 Pâine & Cereale", name: "Quinoa fiartă", kcal: 120, p: 4.4, g: 21.0, l: 1.9, color: 0xf5deb3, shape: 'cylinder' },
+            // 🍗 CARNE & PEȘTE
+            { name: "🍗 Piept de Pui Grătar", kcal: 165, p: 31.0, g: 0.0, l: 3.6, color: 0xffaa55, shape: 'box' },
+            { name: "🍗 Pulpe de Pui fără Piele", kcal: 180, p: 24.0, g: 0.0, l: 9.0, color: 0xcd853f, shape: 'box' },
+            { name: "🥩 Mușchi de Vită Grătar", kcal: 220, p: 28.0, g: 0.0, l: 11.5, color: 0x8b4513, shape: 'box' },
+            { name: "🥩 Mușchi de Porc Copt", kcal: 240, p: 26.0, g: 0.0, l: 14.0, color: 0xa0522d, shape: 'box' },
+            { name: "🐟 Somon Copt pe Grătar", kcal: 206, p: 22.0, g: 0.0, l: 12.3, color: 0xfa8072, shape: 'box' },
+            { name: "🐟 Ton în Suc Propriu", kcal: 116, p: 26.0, g: 0.0, l: 1.0, color: 0xd2b48c, shape: 'box' },
 
-            // --- 🥦 LEGUME & VERȚEȚURI ---
-            { cat: "🥦 Legume & Verdețuri", name: "Roșie proaspătă", kcal: 18, p: 0.9, g: 3.9, l: 0.2, color: 0xff0000, shape: 'sphere' },
-            { cat: "🥦 Legume & Verdețuri", name: "Roșii Cherry", kcal: 22, p: 1.0, g: 4.2, l: 0.2, color: 0xff2400, shape: 'sphere' },
-            { cat: "🥦 Legume & Verdețuri", name: "Castravete fresh cu coajă", kcal: 15, p: 0.7, g: 3.6, l: 0.1, color: 0x2e8b57, shape: 'cylinder' },
-            { cat: "🥦 Legume & Verdețuri", name: "Ardei gras roșu / Kapia", kcal: 26, p: 1.0, g: 6.0, l: 0.3, color: 0xd22b2b, shape: 'sphere' },
-            { cat: "🥦 Legume & Verdețuri", name: "Ardei gras verde", kcal: 20, p: 0.9, g: 4.6, l: 0.2, color: 0x008000, shape: 'sphere' },
-            { cat: "🥦 Legume & Verdețuri", name: "Ceapă galbenă / roșie", kcal: 40, p: 1.1, g: 9.3, l: 0.1, color: 0xd8bfd8, shape: 'sphere' },
-            { cat: "🥦 Legume & Verdețuri", name: "Ceapă verde proaspătă", kcal: 32, p: 1.8, g: 7.3, l: 0.2, color: 0x3cb371, shape: 'cylinder' },
-            { cat: "🥦 Legume & Verdețuri", name: "Usturoi proaspăt", kcal: 149, p: 6.4, g: 33.0, l: 0.5, color: 0xfffaf0, shape: 'sphere' },
-            { cat: "🥦 Legume & Verdețuri", name: "Morcov proaspăt", kcal: 41, p: 0.9, g: 9.6, l: 0.2, color: 0xff8c00, shape: 'cylinder' },
-            { cat: "🥦 Legume & Verdețuri", name: "Broccoli fiert la abur", kcal: 35, p: 2.4, g: 7.2, l: 0.4, color: 0x228b22, shape: 'sphere' },
-            { cat: "🥦 Legume & Verdețuri", name: "Conopidă fiartă", kcal: 23, p: 1.8, g: 4.1, l: 0.5, color: 0xfffff0, shape: 'sphere' },
-            { cat: "🥦 Legume & Verdețuri", name: "Spanac proaspăt", kcal: 23, p: 2.9, g: 3.6, l: 0.4, color: 0x006400, shape: 'box' },
-            { cat: "🥦 Legume & Verdețuri", name: "Salată verde / Iceberg", kcal: 14, p: 1.2, g: 3.0, l: 0.2, color: 0x90ee90, shape: 'box' },
-            { cat: "🥦 Legume & Verdețuri", name: "Rucola", kcal: 25, p: 2.6, g: 3.7, l: 0.7, color: 0x006400, shape: 'box' },
-            { cat: "🥦 Legume & Verdețuri", name: "Ciuperci Champignon fierte", kcal: 28, p: 3.1, g: 3.3, l: 0.3, color: 0xd3d3d3, shape: 'sphere' },
-            { cat: "🥦 Legume & Verdețuri", name: "Vinete coapte", kcal: 35, p: 0.8, g: 8.7, l: 0.2, color: 0x4b0082, shape: 'cylinder' },
-            { cat: "🥦 Legume & Verdețuri", name: "Dovlecel / Zucchini fiert", kcal: 15, p: 1.1, g: 2.7, l: 0.4, color: 0x9acd32, shape: 'cylinder' },
-            { cat: "🥦 Legume & Verdețuri", name: "Cartof fiert în coajă", kcal: 87, p: 1.9, g: 20.1, l: 0.1, color: 0xeee8aa, shape: 'sphere' },
-            { cat: "🥦 Legume & Verdețuri", name: "Cartofi prăjiți (French Fries)", kcal: 312, p: 3.4, g: 41.0, l: 15.0, color: 0xffd700, shape: 'box' },
-            { cat: "🥦 Legume & Verdețuri", name: "Cartof dulce copt", kcal: 90, p: 2.0, g: 20.7, l: 0.1, color: 0xff8c00, shape: 'sphere' },
-            { cat: "🥦 Legume & Verdețuri", name: "Mazăre verde fiartă", kcal: 84, p: 5.4, g: 15.6, l: 0.2, color: 0x00ff00, shape: 'sphere' },
-            { cat: "🥦 Legume & Verdețuri", name: "Fasole verde fiartă", kcal: 35, p: 1.9, g: 7.9, l: 0.3, color: 0x228b22, shape: 'cylinder' },
-            { cat: "🥦 Legume & Verdețuri", name: "Fasole boabe albă fiartă", kcal: 127, p: 8.7, g: 22.8, l: 0.5, color: 0xfffafa, shape: 'sphere' },
-            { cat: "🥦 Legume & Verdețuri", name: "Linte fiartă", kcal: 116, p: 9.0, g: 20.0, l: 0.4, color: 0x8b4513, shape: 'sphere' },
-            { cat: "🥦 Legume & Verdețuri", name: "Năut fiert", kcal: 164, p: 8.9, g: 27.0, l: 2.6, color: 0xf4a460, shape: 'sphere' },
+            // 🍞 PÂINE & CEREALE
+            { name: "🍞 Pâine Albă", kcal: 265, p: 8.9, g: 49.0, l: 3.2, color: 0xffebd7, shape: 'box' },
+            { name: "🍞 Pâine Integrală", kcal: 213, p: 6.3, g: 43.0, l: 1.6, color: 0x8b5a2b, shape: 'box' },
+            { name: "🍚 Orez Fiert Alb", kcal: 130, p: 2.7, g: 28.0, l: 0.3, color: 0xffffff, shape: 'cylinder' },
+            { name: "🥣 Fulgi de Ovăz", kcal: 389, p: 16.9, g: 66.0, l: 6.9, color: 0xf5deb3, shape: 'cylinder' },
 
-            // --- 🍎 FRUCTE FRESH & USCATE ---
-            { cat: "🍎 Fructe Fresh & Uscate", name: "Măr roșu / verde", kcal: 52, p: 0.3, g: 13.8, l: 0.2, color: 0xff0000, shape: 'sphere' },
-            { cat: "🍎 Fructe Fresh & Uscate", name: "Pară proaspătă", kcal: 57, p: 0.4, g: 15.0, l: 0.1, color: 0x9acd32, shape: 'sphere' },
-            { cat: "🍎 Fructe Fresh & Uscate", name: "Banană coaptă", kcal: 89, p: 1.1, g: 22.8, l: 0.3, color: 0xffe4b5, shape: 'cylinder' },
-            { cat: "🍎 Fructe Fresh & Uscate", name: "Portocală proaspătă", kcal: 47, p: 0.9, g: 11.8, l: 0.1, color: 0xff8c00, shape: 'sphere' },
-            { cat: "🍎 Fructe Fresh & Uscate", name: "Mandarine", kcal: 53, p: 0.8, g: 13.3, l: 0.3, color: 0xffa500, shape: 'sphere' },
-            { cat: "🍎 Fructe Fresh & Uscate", name: "Grepfruit", kcal: 42, p: 0.8, g: 10.7, l: 0.1, color: 0xff6347, shape: 'sphere' },
-            { cat: "🍎 Fructe Fresh & Uscate", name: "Căpșuni proaspete", kcal: 32, p: 0.7, g: 7.7, l: 0.3, color: 0xff1493, shape: 'sphere' },
-            { cat: "🍎 Fructe Fresh & Uscate", name: "Zmeură fresh", kcal: 52, p: 1.2, g: 11.9, l: 0.7, color: 0xdc143c, shape: 'sphere' },
-            { cat: "🍎 Fructe Fresh & Uscate", name: "Afine fresh", kcal: 57, p: 0.7, g: 14.5, l: 0.3, color: 0x00008b, shape: 'sphere' },
-            { cat: "🍎 Fructe Fresh & Uscate", name: "Struguri albi / negri", kcal: 69, p: 0.7, g: 18.1, l: 0.2, color: 0x800080, shape: 'sphere' },
-            { cat: "🍎 Fructe Fresh & Uscate", name: "Piersică proaspătă", kcal: 39, p: 0.9, g: 9.5, l: 0.3, color: 0xffa07a, shape: 'sphere' },
-            { cat: "🍎 Fructe Fresh & Uscate", name: "Caisă proaspătă", kcal: 48, p: 1.4, g: 11.0, l: 0.4, color: 0xffa500, shape: 'sphere' },
-            { cat: "🍎 Fructe Fresh & Uscate", name: "Pepene roșu (Harbuz)", kcal: 30, p: 0.6, g: 7.5, l: 0.2, color: 0xff6b6b, shape: 'sphere' },
-            { cat: "🍎 Fructe Fresh & Uscate", name: "Pepene galben", kcal: 34, p: 0.8, g: 8.2, l: 0.2, color: 0xffd700, shape: 'sphere' },
-            { cat: "🍎 Fructe Fresh & Uscate", name: "Kiwi proaspăt", kcal: 61, p: 1.1, g: 14.7, l: 0.5, color: 0x556b2f, shape: 'sphere' },
-            { cat: "🍎 Fructe Fresh & Uscate", name: "Ananas proaspăt", kcal: 50, p: 0.5, g: 13.1, l: 0.1, color: 0xffd700, shape: 'cylinder' },
-            { cat: "🍎 Fructe Fresh & Uscate", name: "Rodie (Semințe)", kcal: 83, p: 1.7, g: 18.7, l: 1.2, color: 0xb22222, shape: 'sphere' },
-            { cat: "🍎 Fructe Fresh & Uscate", name: "Curmale uscate turcești/arabe", kcal: 280, p: 2.5, g: 75.0, l: 0.4, color: 0x8b4513, shape: 'sphere' },
-            { cat: "🍎 Fructe Fresh & Uscate", name: "Smochine proaspete", kcal: 74, p: 0.7, g: 19.0, l: 0.3, color: 0x4b0082, shape: 'sphere' },
-            { cat: "🍎 Fructe Fresh & Uscate", name: "Smochine uscate", kcal: 250, p: 3.3, g: 63.8, l: 0.9, color: 0x8b5a2b, shape: 'sphere' },
-            { cat: "🍎 Fructe Fresh & Uscate", name: "Stafide aurii / negre", kcal: 299, p: 3.1, g: 79.0, l: 0.5, color: 0xcd853f, shape: 'sphere' },
-            { cat: "🍎 Fructe Fresh & Uscate", name: "Caise uscate", kcal: 240, p: 3.4, g: 62.0, l: 0.5, color: 0xff8c00, shape: 'sphere' },
-            { cat: "🍎 Fructe Fresh & Uscate", name: "Prune uscate", kcal: 240, p: 2.2, g: 64.0, l: 0.4, color: 0x2f4f4f, shape: 'sphere' },
-
-            // --- 🥩 CARNE, PEȘTE & MEZELURI ---
-            { cat: "🥩 Carne & Pește", name: "Piept de pui la grătar (fără piele)", kcal: 165, p: 31.0, g: 0.0, l: 3.6, color: 0xffaa55, shape: 'box' },
-            { cat: "🥩 Carne & Pește", name: "Pulpă de pui la cuptor cu piele", kcal: 230, p: 24.0, g: 0.0, l: 15.0, color: 0xcd853f, shape: 'sphere' },
-            { cat: "🥩 Carne & Pește", name: "Piept de curcan la grătar", kcal: 135, p: 30.0, g: 0.0, l: 1.5, color: 0xffebcd, shape: 'box' },
-            { cat: "🥩 Carne & Pește", name: "Muschiuleț de porc la grătar", kcal: 143, p: 26.0, g: 0.0, l: 3.5, color: 0xbc8f8f, shape: 'box' },
-            { cat: "🥩 Carne & Pește", name: "Ceafă de porc la grătar", kcal: 260, p: 22.0, g: 0.0, l: 18.0, color: 0x8b4513, shape: 'box' },
-            { cat: "🥩 Carne & Pește", name: "Carne tocată de porc (fiată/prăjită)", kcal: 263, p: 25.0, g: 0.0, l: 17.0, color: 0xa0522d, shape: 'sphere' },
-            { cat: "🥩 Carne & Pește", name: "Vrăbioară de vită la grătar", kcal: 210, p: 28.0, g: 0.0, l: 10.0, color: 0x8b0000, shape: 'box' },
-            { cat: "🥩 Carne & Pește", name: "Carne de oaie / berbecuț la grătar", kcal: 280, p: 25.0, g: 0.0, l: 19.0, color: 0x5c4033, shape: 'box' },
-            { cat: "🥩 Carne & Pește", name: "Döner Kebab de pui", kcal: 210, p: 18.0, g: 5.0, l: 13.0, color: 0xd2b48c, shape: 'cylinder' },
-            { cat: "🥩 Carne & Pește", name: "Döner Kebab de vită/oaie", kcal: 260, p: 20.0, g: 3.0, l: 18.0, color: 0x8b4513, shape: 'cylinder' },
-            { cat: "🥩 Carne & Pește", name: "Şiş Kebab (Frăpui de pui/vită)", kcal: 190, p: 26.0, g: 2.0, l: 8.5, color: 0xcd853f, shape: 'cylinder' },
-            { cat: "🥩 Carne & Pește", name: "Somon la grătar / cuptor", kcal: 206, p: 22.0, g: 0.0, l: 12.3, color: 0xfa8072, shape: 'box' },
-            { cat: "🥩 Carne & Pește", name: "Păstrăv la grătar", kcal: 148, p: 20.8, g: 0.0, l: 6.6, color: 0xc0c0c0, shape: 'box' },
-            { cat: "🥩 Carne & Pește", name: "Cod fiert / la abur", kcal: 82, p: 18.0, g: 0.0, l: 0.7, color: 0xfffafa, shape: 'box' },
-            { cat: "🥩 Carne & Pește", name: "Conservă de Tonn în suc propriu", kcal: 116, p: 26.0, g: 0.0, l: 1.0, color: 0xd3d3d3, shape: 'cylinder' },
-            { cat: "🥩 Carne & Pește", name: "Conservă de Ton în ulei", kcal: 198, p: 29.0, g: 0.0, l: 8.2, color: 0xd2b48c, shape: 'cylinder' },
-            { cat: "🥩 Carne & Pește", name: "Creveți trași la tigaie", kcal: 99, p: 24.0, g: 0.2, l: 0.3, color: 0xff7f50, shape: 'sphere' },
-            { cat: "🥩 Carne & Pește", name: "Calamar prăjit", kcal: 175, p: 18.0, g: 7.0, l: 7.5, color: 0xffebcd, shape: 'torus' },
-            { cat: "🥩 Carne & Pește", name: "Șuncă de praga / presată", kcal: 120, p: 17.0, g: 1.5, l: 5.0, color: 0xffc0cb, shape: 'box' },
-            { cat: "🥩 Carne & Pește", name: "Șuncă de curcan", kcal: 100, p: 18.0, g: 1.0, l: 2.5, color: 0xffe4e1, shape: 'box' },
-            { cat: "🥩 Carne & Pește", name: "Salam de Sibiu", kcal: 480, p: 25.0, g: 1.0, l: 42.0, color: 0x800000, shape: 'cylinder' },
-            { cat: "🥩 Carne & Pește", name: "Prosciutto Crudo", kcal: 235, p: 27.0, g: 0.5, l: 14.0, color: 0xb22222, shape: 'box' },
-            { cat: "🥩 Carne & Pește", name: "Bacon prăjit", kcal: 540, p: 37.0, g: 1.4, l: 42.0, color: 0x8b0000, shape: 'box' },
-
-            // --- 🥜 NUCI, SEMINȚE & GRĂSIMI ---
-            { cat: "🥜 Nuci, Semințe & Uleiuri", name: "Nuci românești / turcești", kcal: 654, p: 15.2, g: 13.7, l: 65.2, color: 0x8b4513, shape: 'sphere' },
-            { cat: "🥜 Nuci, Semințe & Uleiuri", name: "Migdale crude", kcal: 579, p: 21.2, g: 21.6, l: 49.9, color: 0xcd853f, shape: 'sphere' },
-            { cat: "🥜 Nuci, Semințe & Uleiuri", name: "Fistic prăjit și sărat (Antep)", kcal: 562, p: 20.0, g: 27.0, l: 45.0, color: 0x9acd32, shape: 'sphere' },
-            { cat: "🥜 Nuci, Semințe & Uleiuri", name: "Alune de pădure (Hazelnuts)", kcal: 628, p: 15.0, g: 16.0, l: 61.0, color: 0xd2b48c, shape: 'sphere' },
-            { cat: "🥜 Nuci, Semințe & Uleiuri", name: "Nuci Caju", kcal: 553, p: 18.0, g: 30.0, l: 44.0, color: 0xffebcd, shape: 'sphere' },
-            { cat: "🥜 Nuci, Semințe & Uleiuri", name: "Arahide prăjite (Alune de pământ)", kcal: 567, p: 25.8, g: 16.0, l: 49.2, color: 0xd2691e, shape: 'sphere' },
-            { cat: "🥜 Nuci, Semințe & Uleiuri", name: "Semințe de floarea soarelui", kcal: 584, p: 20.8, g: 20.0, l: 51.5, color: 0x2f4f4f, shape: 'sphere' },
-            { cat: "🥜 Nuci, Semințe & Uleiuri", name: "Semințe de dovleac (Dovleac)", kcal: 559, p: 30.0, g: 10.7, l: 49.0, color: 0x556b2f, shape: 'sphere' },
-            { cat: "🥜 Nuci, Semințe & Uleiuri", name: "Semințe de Susan", kcal: 573, p: 17.7, g: 23.4, l: 49.7, color: 0xf5deb3, shape: 'sphere' },
-            { cat: "🥜 Nuci, Semințe & Uleiuri", name: "Semințe de Chia", kcal: 486, p: 16.5, g: 42.0, l: 30.7, color: 0x000000, shape: 'sphere' },
-            { cat: "🥜 Nuci, Semințe & Uleiuri", name: "Avocado copt", kcal: 160, p: 2.0, g: 9.0, l: 15.0, color: 0x228b22, shape: 'sphere' },
-            { cat: "🥜 Nuci, Semințe & Uleiuri", name: "Unt de arahide 100%", kcal: 588, p: 25.0, g: 20.0, l: 50.0, color: 0xcd853f, shape: 'box' },
-            { cat: "🥜 Nuci, Semințe & Uleiuri", name: "Ulei de măsline Extra Virgin", kcal: 884, p: 0.0, g: 0.0, l: 100.0, color: 0x808000, shape: 'cylinder' },
-            { cat: "🥜 Nuci, Semințe & Uleiuri", name: "Ulei de floarea soarelui", kcal: 884, p: 0.0, g: 0.0, l: 100.0, color: 0xffd700, shape: 'cylinder' },
-            { cat: "🥜 Nuci, Semințe & Uleiuri", name: "Maioneză din comerț", kcal: 680, p: 1.0, g: 2.5, l: 75.0, color: 0xfffacd, shape: 'sphere' },
-
-            // --- 🍫 DULCIURI, GUSTĂRI & BĂUTURI ---
-            { cat: "🍫 Dulciuri & Gustări", name: "Ciocolată neagră 70%", kcal: 598, p: 7.8, g: 45.0, l: 42.6, color: 0x2b1d0c, shape: 'box' },
-            { cat: "🍫 Dulciuri & Gustări", name: "Ciocolată cu lapte", kcal: 535, p: 7.6, g: 59.0, l: 30.0, color: 0x8b4513, shape: 'box' },
-            { cat: "🍫 Dulciuri & Gustări", name: "Miere de albine naturală", kcal: 304, p: 0.3, g: 82.0, l: 0.0, color: 0xffa500, shape: 'cylinder' },
-            { cat: "🍫 Dulciuri & Gustări", name: "Dulceață de vișine / căpșuni", kcal: 260, p: 0.4, g: 65.0, l: 0.1, color: 0x8b0000, shape: 'cylinder' },
-            { cat: "🍫 Dulciuri & Gustări", name: "Nutella / Crema de alune cu cacao", kcal: 539, p: 6.3, g: 57.5, l: 30.9, color: 0x4a2e12, shape: 'box' },
-            { cat: "🍫 Dulciuri & Gustări", name: "Biscuiți simpli (Eugenia / Popular)", kcal: 440, p: 7.0, g: 72.0, l: 14.0, color: 0xcd853f, shape: 'box' },
-            { cat: "🍫 Dulciuri & Gustări", name: "Biscuiți integrali cu ovăz", kcal: 420, p: 8.5, g: 62.0, l: 15.0, color: 0xd2b48c, shape: 'box' },
-            { cat: "🍫 Dulciuri & Gustări", name: "Chipsuri din cartofi cu sare", kcal: 536, p: 7.0, g: 53.0, l: 33.0, color: 0xffd700, shape: 'sphere' },
-            { cat: "🍫 Dulciuri & Gustări", name: "Popcorn făcut cu unt", kcal: 450, p: 9.0, g: 58.0, l: 20.0, color: 0xfffacd, shape: 'sphere' },
-            { cat: "🍫 Dulciuri & Gustări", name: "Covrigei cu sare / susan", kcal: 380, p: 10.0, g: 74.0, l: 4.5, color: 0xd2b48c, shape: 'torus' },
-            { cat: "☕ Băuturi", name: "Ceai Negru Turcesc (Çay - fără zahăr)", kcal: 2, p: 0.1, g: 0.2, l: 0.0, color: 0x800000, shape: 'cylinder' },
-            { cat: "☕ Băuturi", name: "Cilindru Cafea Turcească (fără zahăr)", kcal: 5, p: 0.3, g: 0.5, l: 0.1, color: 0x3e2723, shape: 'cylinder' },
-            { cat: "☕ Băuturi", name: "Cappuccino cu spumă de lapte", kcal: 90, p: 4.0, g: 9.0, l: 4.0, color: 0xd2b48c, shape: 'cylinder' },
-            { cat: "☕ Băuturi", name: "Suc de portocale natural (Fresh)", kcal: 45, p: 0.7, g: 10.4, l: 0.2, color: 0xff8c00, shape: 'cylinder' },
-            { cat: "☕ Băuturi", name: "Coca-Cola / Suc carbogazos clasic", kcal: 42, p: 0.0, g: 10.6, l: 0.0, color: 0x2b1d0c, shape: 'cylinder' }
+            // 🍎 FRUCTE & NUCI
+            { name: "🍎 Măr Roșu", kcal: 52, p: 0.3, g: 13.8, l: 0.2, color: 0xff0000, shape: 'sphere' },
+            { name: "🍌 Banană", kcal: 89, p: 1.1, g: 22.8, l: 0.3, color: 0xffe44d, shape: 'cylinder' },
+            { name: "🍊 Portocală", kcal: 47, p: 0.9, g: 11.8, l: 0.1, color: 0xffa500, shape: 'sphere' },
+            { name: "🥜 Nuci Românești", kcal: 654, p: 15.2, g: 13.7, l: 65.2, color: 0x8b4513, shape: 'sphere' },
+            { name: "🥜 Migdale", kcal: 579, p: 21.0, g: 21.6, l: 49.9, color: 0xcd853f, shape: 'sphere' },
+            { name: "🥜 Fistic Turcesc", kcal: 562, p: 20.0, g: 27.0, l: 45.0, color: 0x9acd32, shape: 'sphere' }
         ];
 
+        let filteredDB = [...DB];
         let list = [];
         let scene, camera, renderer, controls, foodGroup;
 
-        // POPULARE SELECT CU CATEGORII
-        function populateSelect(filteredDB = DB) {
+        function populateSelect(items) {
             const sel = document.getElementById('foodSelect');
-            sel.innerHTML = '';
-
-            // Grouping by category
-            const categories = {};
-            filteredDB.forEach((item, index) => {
-                if (!categories[item.cat]) categories[item.cat] = [];
-                categories[item.cat].push({ ...item, originalIdx: DB.indexOf(item) });
-            });
-
-            for (const cat in categories) {
-                const group = document.createElement('optgroup');
-                group.label = cat;
-                categories[cat].forEach(item => {
-                    const opt = document.createElement('option');
-                    opt.value = item.originalIdx;
-                    opt.textContent = `${item.name} (${item.kcal} kcal)`;
-                    group.appendChild(opt);
-                });
-                sel.appendChild(group);
-            }
-
-            document.getElementById('foodCountLabel').innerText = `${filteredDB.length} Alimente`;
+            sel.innerHTML = items.map((item, idx) => `
+                <option value="${idx}">${item.name} (${item.kcal} kcal)</option>
+            `).join('');
+            document.getElementById('itemCount').innerText = items.length + ' opțiuni';
         }
 
         function filterFoods() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = DB.filter(i => i.name.toLowerCase().includes(query) || i.cat.toLowerCase().includes(query));
-            populateSelect(filtered);
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            filteredDB = DB.filter(x => x.name.toLowerCase().includes(q));
+            populateSelect(filteredDB);
         }
 
         function init3D() {
@@ -404,7 +256,7 @@
             controls = new THREE.OrbitControls(camera, renderer.domElement);
             controls.enableDamping = true;
 
-            // Lights
+            // Iluminare
             const light1 = new THREE.DirectionalLight(0xffffff, 1.1);
             light1.position.set(10, 20, 10);
             scene.add(light1);
@@ -413,16 +265,11 @@
             light2.position.set(-10, 10, -10);
             scene.add(light2);
 
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-            scene.add(ambientLight);
+            scene.add(new THREE.AmbientLight(0xffffff, 0.6));
 
-            // --- FARFURIA ALBĂ ---
+            // --- FARFURIE ALBĂ DE PORȚELAN ---
             const plateGeo = new THREE.CylinderGeometry(5.2, 4.2, 0.35, 64);
-            const plateMat = new THREE.MeshStandardMaterial({ 
-                color: 0xfcfcfc, 
-                roughness: 0.1, 
-                metalness: 0.1 
-            });
+            const plateMat = new THREE.MeshStandardMaterial({ color: 0xfcfcfc, roughness: 0.1, metalness: 0.1 });
             const plate = new THREE.Mesh(plateGeo, plateMat);
             plate.position.y = -0.18;
             scene.add(plate);
@@ -449,10 +296,9 @@
 
         function addFood() {
             const idx = document.getElementById('foodSelect').value;
-            if (idx === "" || idx === null) return;
-
+            if(!filteredDB[idx]) return;
             const w = parseFloat(document.getElementById('foodWeight').value) || 100;
-            const item = DB[idx];
+            const item = filteredDB[idx];
             const r = w / 100;
 
             list.push({
@@ -531,7 +377,7 @@
         function renderUI() {
             const tbody = document.getElementById('tableBody');
             if(list.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7" class="p-3 text-center text-gray-500 italic">Farfuria albă este goală. Adaugă ingrediente din listă!</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="7" class="p-3 text-center text-gray-500 italic">Farfuria este goală.</td></tr>';
                 document.getElementById('totKcalHeader').innerText = '0 kcal';
                 document.getElementById('totP').innerText = '0 g';
                 document.getElementById('totG').innerText = '0 g';
@@ -570,7 +416,7 @@
         }
 
         window.onload = function() {
-            populateSelect();
+            populateSelect(DB);
             init3D();
             initChart();
         };
